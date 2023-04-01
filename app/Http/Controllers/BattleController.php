@@ -83,9 +83,6 @@ class BattleController extends Controller
                 if($squ_arr[$check_squ_num] == $check_color){
                     $win_counter++;
                     if($win_counter == self::WIN_CONDITION){
-                        // return view('win')->with([
-                        //     'win_player' => $win_player,
-                        // ]);
                         return view('battle')->with([
                             'player1' => $request['player1'],
                             'player2' => $request['player2'],
@@ -104,7 +101,11 @@ class BattleController extends Controller
                 if($squ_arr[$check_squ_num] == $check_color){
                     $win_counter++;
                     if($win_counter == self::WIN_CONDITION){
-                        return view('win')->with([
+                        return view('battle')->with([
+                            'player1' => $request['player1'],
+                            'player2' => $request['player2'],
+                            'squ_arr' => $squ_arr,
+                            'game_counter' => $game_counter,
                             'win_player' => $win_player,
                         ]);
                     }
@@ -122,7 +123,11 @@ class BattleController extends Controller
                 if($squ_arr[$check_squ_num] == $check_color){
                     $win_counter++;
                     if($win_counter == self::WIN_CONDITION){
-                        return view('win')->with([
+                        return view('battle')->with([
+                            'player1' => $request['player1'],
+                            'player2' => $request['player2'],
+                            'squ_arr' => $squ_arr,
+                            'game_counter' => $game_counter,
                             'win_player' => $win_player,
                         ]);
                     }
@@ -141,7 +146,11 @@ class BattleController extends Controller
                 if($squ_arr[$check_squ_num] == $check_color){
                     $win_counter++;
                     if($win_counter == self::WIN_CONDITION){
-                        return view('win')->with([
+                        return view('battle')->with([
+                            'player1' => $request['player1'],
+                            'player2' => $request['player2'],
+                            'squ_arr' => $squ_arr,
+                            'game_counter' => $game_counter,
                             'win_player' => $win_player,
                         ]);
                     }
@@ -149,36 +158,14 @@ class BattleController extends Controller
                     $win_counter = 0;
                 }
             }
-            // //ナナメをチェック（右上から左下の下半分)
-            // for($k = 1; $k <= self::LINE_NUM; $k++){
-            //     $check_squ_num = (($k * self::LINE_NUM) + 1 ) + ((self::LINE_NUM  * ($i - 1)) + ($i - 1));
-            //     //マス番号が196より小さい場合はスルー
-            //     if($check_squ_num < self::SQUAREA_NUM){
-            //         continue;
-            //     }
-            //     if($squ_arr[$check_squ_num] == $check_color){
-            //         $win_counter++;
-            //         if($win_counter == self::WIN_CONDITION){
-            //             return view('win')->with([
-            //                 'win_player' => $win_player,
-            //             ]);
-            //         }
-            //     }else{
-            //         $win_counter = 0;
-            //     }
-            // }
-            
-
         }
     
+        //試合続行
         return view('battle')->with([
             'player1' => $request['player1'],
             'player2' => $request['player2'],
             'squ_arr' => $squ_arr,
             'game_counter' => $game_counter,
         ]);
-        
-        
-
     }
 }

@@ -16,18 +16,22 @@
                 <tr class="border border-slate-900">
                     @for($j=1; $j<=14; $j++)
                     <?php $squ_num = $j + 14 * ($i - 1); ?>
-                        <td class="border border-slate-900 w-8 h-8 text-center bg-amber-100" >
-                            
-                            <button type="submit" name="btn_num" value="{{$squ_num}}">
-                                @if($squ_arr[$squ_num] == 0)
+                        <td class="border border-slate-900 w-8 h-8 text-center bg-amber-100 " >
+                            @if (($squ_arr[$squ_num] == 0))
+                                @if (!isset($win_player))
+                                <div class="justify-center">
+                                <button type="submit" name="btn_num" value="{{$squ_num}}">
+                                    .
+                                </button>
+                                @else
                                 .
-                                @elseif($squ_arr[$squ_num] == 1)
-                                ◯
-                                @elseif($squ_arr[$squ_num] == 2)
-                                ●
+                                </div>
                                 @endif
-                                {{$squ_num}}
-                            </button>
+                            @elseif($squ_arr[$squ_num] == 1)
+                                ◯
+                            @elseif($squ_arr[$squ_num] == 2)
+                                ●
+                            @endif
                             <input type="hidden" name="{{$squ_num}}" value="{{$squ_arr[$squ_num]}}">
                             <input type="hidden" name="game_counter" value="{{$game_counter}}">
                             <input type="hidden" name="player1" value="{{$player1}}">
