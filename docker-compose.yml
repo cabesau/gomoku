@@ -38,6 +38,9 @@ services:
             MYSQL_USER: '${DB_USERNAME}'
             MYSQL_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
+
+            MYSQL_HOST: mysql
+            # MYSQL_HOST: gomoku-app-mysql  # ホスト名を変更
         volumes:
             - 'sail-mysql:/var/lib/mysql'
             - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
@@ -99,6 +102,18 @@ services:
             - '/dev/shm:/dev/shm'
         networks:
             - sail
+# 以下追加分            
+    # phpmyadmin:
+    #     image: phpmyadmin/phpmyadmin
+    #     container_name: gomoku-app-phpmyadmin
+    #     environment:
+    #         PMA_HOST: gomoku-app-mysql
+    #         PMA_PORT: 3306
+    #         MYSQL_ROOT_PASSWORD: secret
+    #     restart: always
+    #     ports:
+    #         - "8080:80"
+# 追加分ここまで            
 networks:
     sail:
         driver: bridge
