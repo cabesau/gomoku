@@ -42,3 +42,5 @@ Route::get('/top',[TopController::class,'top'])->name('top');
 Route::post('/game',[BattleController::class,'top']);
 
 Route::post('battle',[BattleController::class,'battle']);
+
+Route::post('wait',[TopController::class,'wait']);

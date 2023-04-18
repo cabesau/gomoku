@@ -10,6 +10,11 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+    public function rooms(){
+        
+        return $this->hasMany(Room::class);
+    }
+
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
