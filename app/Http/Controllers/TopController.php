@@ -16,8 +16,13 @@ class TopController extends Controller
         ->with('rooms',$rooms);
     }
 
-    //待合室に入場する
+    //ルームに入る
     public function wait(Request $request){
+
+        if(isset($request['make_room'])){
+            
+
+        }
 
         $room = Room::where('id',$request['room_id'])->get();
         // dd($room);
