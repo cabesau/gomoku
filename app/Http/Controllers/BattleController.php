@@ -8,7 +8,7 @@ use function PHPUnit\Framework\isEmpty;
 
 class BattleController extends Controller
 {
-    //石がない
+    //石がないとき
     const NO_STONE = '0';
     //白石
     const WHITE_STONE = '1';

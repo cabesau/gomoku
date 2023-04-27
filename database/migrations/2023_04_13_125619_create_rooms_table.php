@@ -13,8 +13,12 @@ return new class extends Migration
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
+            $table->integer('room_no');
             $table->integer('user_id');
-            $table->text('comment');
+            $table->text('comment')->nullable();
+            $table->string('delete_flg');
+            $table->string('exciting_flg');
+            $table->integer('opponent_user_id')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +28,15 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rooms');
+        Schema::dropIfExists('rooms',function (Blueprint $table) {
+            $table->id();
+            $table->integer('room_no');
+            $table->integer('user_id');
+            $table->text('comment');
+            $table->string('delete_flg');
+            $table->string('exciting_flg');
+            $table->timestamps();
+            $table->integer('opponent_user_id');
+        });
     }
 };

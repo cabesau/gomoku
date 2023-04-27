@@ -29,7 +29,7 @@ class UsersSeeder extends Seeder
             DB::table('users')->insert([
                 'name'=> $name,
                 'email' => $faker->email,
-                'password' =>'1234',
+                'password' =>'12345678',
             ]);
 
         }

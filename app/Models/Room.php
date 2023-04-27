@@ -7,9 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Room extends Model
 {
+    use HasFactory;
+
     public function user(){
         
         return $this->belongsTo(User::class);
     }
-    use HasFactory;
+
+    protected $fillable = [
+        'id',
+        'room_no',
+        'user_id',
+        'comment',
+        'delete_flg',
+        'exciting_flg',
+    ];
+
 }

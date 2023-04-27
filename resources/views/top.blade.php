@@ -13,7 +13,7 @@
     <table class="w-full">
         <thead>
             <tr>
-                <th class="w-1/4">ルームID</th>
+                <th class="w-1/4">ルームNo</th>
                 <th class="w-1/4">ルーム作成者</th>
                 <th class="w-1/4">コメント</th>
                 <th class="w-1/4"></th>
@@ -24,7 +24,7 @@
             <form action="/wait" method="POST">
             @csrf
             <tr>
-                <td class="border border-gray-300 p-2">{{$room->id}}</td>
+                <td class="border border-gray-300 p-2">{{$room->room_no}}</td>
                 <td class="border border-gray-300 p-2">{{$room->user->name}}</td>
                 <td class="border border-gray-300 p-2">{{$room->comment}}</td>
                 <td class="border border-gray-300 p-2"><button type="submit" class="w-full text-blue-700">入室する</button></td>
@@ -54,7 +54,8 @@
                     <label for="room-comment" class="block text-sm font-medium text-gray-700"></label>
                     <textarea id="room-comment" name="comment" placeholder="ここにコメントを入れてください" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ></textarea><br>
                 </div>
-                <input type="checkbox" name="mood" value="1">エキサイティングモード
+                <input type="hidden" name="exciting_flg" value="0" >
+                <input type="checkbox" name="exciting_flg" value="1">エキサイティングモード
                 <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
                     <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm" id="createRoomConfirmBtn">
                         ルームを作成
