@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-
 use function PHPUnit\Framework\isEmpty;
+use App\models\Room;
+use App\models\User;
+use Illuminate\Http\RedirectResponse;
 
 class BattleController extends Controller
 {
@@ -22,8 +23,27 @@ class BattleController extends Controller
     const WIN_CONDITION = 3;
 
 
+    //ゲームが開始されていなかったら開始フラグを立てる
+    public function game_start(Request $request){
+        $room = Room::where('room_no',$request['room_no'])->first();
+        $room->update([
+            'start_flg' => '1',
+        ]);
+        $opponent_user = User::where('id',$room->opponent_user_id)->first();
+        // return redirect()->route('game')->with([
+        //     'player1' => $room->user->name,
+        //     'player2' => $opponent_user->name
+        // ]);
+        return redirect('game')->with([
+            'player1' => $room->user->name,
+            'player2' => $opponent_user->name
+        ]);
+        
+    }
+
     public function top(Request $request){
 
+        dd($request);
         //手番カウンター
         $game_counter = 1;
 
@@ -34,10 +54,16 @@ class BattleController extends Controller
         
         if(isEmpty($request['player1'])){
             $player1 = "プレイヤー１";
+        }else{
+            $player1 = $request['player1'];
         }
+
         if(isEmpty($request['player2'])){
             $player2 = "プレイヤー２";
+        }else{
+            $player2 = $request['player2'];
         }
+
         return view('battle')->with([
             'player1' => $player1,
             'player2' => $player2,

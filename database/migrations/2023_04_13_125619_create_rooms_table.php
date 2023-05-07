@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('delete_flg');
             $table->string('exciting_flg');
             $table->integer('opponent_user_id')->nullable();
+            $table->string('start_flg');
             $table->timestamps();
         });
     }
@@ -37,6 +38,7 @@ return new class extends Migration
             $table->string('exciting_flg');
             $table->timestamps();
             $table->integer('opponent_user_id');
+            $table->string('start_flg');
         });
     }
 };

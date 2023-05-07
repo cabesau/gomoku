@@ -21,6 +21,8 @@ class Room extends Model
         'comment',
         'delete_flg',
         'exciting_flg',
+        'opponent_user_id',
+        'start_flg',
     ];
 
 }

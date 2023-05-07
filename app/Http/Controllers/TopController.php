@@ -18,7 +18,8 @@ class TopController extends Controller
         $rooms = Room::all();
         // dd($rooms);
         return view('top')
-        ->with('rooms',$rooms);
+        ->with('rooms',$rooms)
+        ->with('user',Auth::user());
     }
 
     //待機ルームに入る
@@ -38,6 +39,7 @@ class TopController extends Controller
                 'comment' => $request['comment'],
                 'delete_flg' => '0',
                 'exciting_flg' => $request['exciting_flg'],
+                'start_flg' => '0'
             ]);
 
             $room = Room::where('room_no',$room_no)->where('delete_flg',0)->first();
@@ -48,12 +50,14 @@ class TopController extends Controller
 
         //他の人の部屋に入室
         }else{
-            $room = Room::where('id',$request['room_id'])->where('delete_flg',0)->first();
-            $room_maker = false;
+                $room = Room::where('id',$request['room_id'])->where('delete_flg',0)->first();
+                $room_maker = false;
+                // dd($room);
 
-            $room->update([
-                'opponent_user_id'=>Auth::id(),
-            ]);
+                $room->update([
+                    'opponent_user_id'=>Auth::id(),
+                ]);
+            
         }
 
         // dd($room);

@@ -38,6 +38,7 @@ class RoomsSeeder extends Seeder
                 'comment' => $greeting,
                 'delete_flg' => 0,
                 'exciting_flg' => 0,
+                'start_flg' => 0,
                 
             ]);
         }

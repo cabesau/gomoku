@@ -1,6 +1,7 @@
 <x-layout title="TOP | エキサイティング五目並べ">
 <div class="p-4">
 
+    <div class="text-right">{{$user->name}}</div>
     <h1 class="text-xl text-center p-12">エキサイティング五目並べ</h1><br>
 
     <div class="flex flex-col">
@@ -90,6 +91,15 @@
         // モーダルを非表示にする
         document.getElementById("createRoomModal").classList.add("hidden");
     });
+
+    //JQueryの使用可能かどうかのチェック
+    // if (typeof jQuery != 'undefined') {
+    // console.log("可");
+    // } else {
+    //     console.log("不可");
+    // }
+
+
 </script>
 
 
