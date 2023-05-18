@@ -8,6 +8,7 @@ use App\models\Room;
 
 class RoomController extends Controller
 {
+    //待機室に対戦相手が来たかどうかを判別
     function check_players_in_room(Request $request){
         $room_no = $request['room_no'];
         $data = Room::where('room_no',$room_no)->first();
@@ -22,11 +23,12 @@ class RoomController extends Controller
         
     }
 
+    //ゲームを開始したかどうかチェック
     function check_game_started(Request $request){
         $room_no = $request['room_no'];
         $data = Room::where('room_no',$room_no)->first();
         
-        //対戦相手がいればsuccessを返す
+        //ゲームが開始されていればsuccessを返す
         if ($data['started'] == '1') {
             return 'success';
         }

@@ -44,12 +44,10 @@
                 if (response === 'success') {
                      // ボタンを表示する
                     $('#createRoomBtn').show();
-                    console.log("success");
                 } else {
                     // 新しいデータがない場合は、2秒後に再度ポーリングする
                     setTimeout(function() {
                         check_players_in_room(room_no);
-                        console.log("NOTsuccess");
                     }, 2000);
                 }
             });
