@@ -25,19 +25,14 @@
         <div class="rounded border bg-yellow-500 p-3">コメント:{{$room->comment}}</div>
 
         @if ($room_maker)
-        <form action="game_start" method="post">
-        @csrf
-            <input type="hidden" name="room_no" value={{$room->room_no}}>
-            <div class="flex justify-center">
-                <button type="submit" id="createRoomBtn" style="display:none" class="mb-8 py-3 px-4 mt-10 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-gray-500 text-white hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all text-sm dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-offset-gray-800"id="createRoomBtn">
-                    ゲームを開始する
-                </button> 
-            </div>  
-        </form>
+            <p class="hidden mb-8 py-3 px-4 mt-10 justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-gray-500 text-white hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all text-sm dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-offset-gray-800"id="createRoomBtn">
+                <a href={{ route('game', ['room_no'=>$room->room_no])}}>ゲームを開始する</a>
+            </p>
         @endif
     </div>
 
     <script>
+        'use strict';
         //二人揃ったらスタートボタンを表示させる
         function check_players_in_room(room_no) {
             $.get('/check_players_in_room', {room_no: room_no}, function(response) {
@@ -54,27 +49,38 @@
         }
 
         //相手が開始ボタンを押したらゲームを開始させる
-        function check_players_in_room(room_no) {
-            $.get('/check_players_in_room', {room_no: room_no}, function(response) {
+        function check_game_started(room_no) {
+            $.get('/check_game_started', {room_no: room_no}, function(response) {
                 if (response === 'success') {
-                     // ボタンを表示する
-                    $('#createRoomBtn').show();
-                    console.log("success");
+                    //画面遷移したい
+                    console.log('success');
+                    window.location.href = `game/${room_no}`
                 } else {
                     // 新しいデータがない場合は、2秒後に再度ポーリングする
                     setTimeout(function() {
-                        check_players_in_room(room_no);
-                        console.log("NOTsuccess");
+                        console.log('no');
+                        check_game_started(room_no);
                     }, 2000);
                 }
             });
         }
 
         // 二人揃ったかどうか確認
-        let room_no = {{$room->room_no}}
+        let room_no = {{$room->room_no}};
         check_players_in_room(room_no);
 
         //開始ボタンが押されたかどうか確認
+        check_game_started(room_no);
+
+        //戻るボタンを押したときにアラート表示
+        $('#back_to_top').on('click',function(){
+            window.confirm('本当に戻っていいですか？');
+        });
+
+        $('#taiki').on('click',function(){
+            window.confirm('本当に戻っていいですか？');
+        });
+
     </script>
 
 </x-layout>

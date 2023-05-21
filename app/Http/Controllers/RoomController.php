@@ -27,9 +27,9 @@ class RoomController extends Controller
     function check_game_started(Request $request){
         $room_no = $request['room_no'];
         $data = Room::where('room_no',$room_no)->first();
-        
+
         //ゲームが開始されていればsuccessを返す
-        if ($data['started'] == '1') {
+        if ($data['start_flg'] == '1') {
             return 'success';
         }
     

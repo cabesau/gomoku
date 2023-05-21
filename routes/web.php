@@ -28,8 +28,7 @@ require __DIR__.'/auth.php';
 Route::get('/top',[TopController::class,'top'])->name('top');
 
 //getはコントローラーからコントローラーに遷移(?)したい場合に使う。
-Route::get('/game',[BattleController::class,'top'])->name('game');
-Route::post('/game',[BattleController::class,'top'])->name('game');
+Route::get('/game/{room_no}',[BattleController::class,'top'])->name('game');
 
 Route::post('battle',[BattleController::class,'battle']);
 
@@ -37,4 +36,5 @@ Route::post('wait',[TopController::class,'wait']);
 
 Route::get('/check_players_in_room', [RoomController::class,'check_players_in_room']);
 
-Route::post('/game_start',[BattleController::class,'game_start']);
+Route::get('/check_game_started',[RoomController::class,'check_game_started']);
+// Route::post('/check_game_started',[RoomController::class,'check_game_started']);
