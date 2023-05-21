@@ -16,10 +16,11 @@ return new class extends Migration
             $table->integer('room_no');
             $table->integer('user_id');
             $table->text('comment')->nullable();
-            $table->string('delete_flg');
-            $table->string('exciting_flg');
+            $table->integer('delete_flg');
+            $table->integer('exciting_flg');
             $table->integer('opponent_user_id')->nullable();
-            $table->string('start_flg');
+            $table->integer('start_flg');
+            $table->integer('turn');
             $table->timestamps();
         });
     }
@@ -34,11 +35,12 @@ return new class extends Migration
             $table->integer('room_no');
             $table->integer('user_id');
             $table->text('comment');
-            $table->string('delete_flg');
-            $table->string('exciting_flg');
+            $table->integer('delete_flg');
+            $table->integer('exciting_flg');
             $table->timestamps();
             $table->integer('opponent_user_id');
-            $table->string('start_flg');
+            $table->integer('start_flg');
+            $table->integer('turn');
         });
     }
 };

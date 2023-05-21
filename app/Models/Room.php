@@ -23,6 +23,7 @@ class Room extends Model
         'exciting_flg',
         'opponent_user_id',
         'start_flg',
+         'turn'
     ];
 
 }

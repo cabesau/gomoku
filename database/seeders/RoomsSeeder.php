@@ -39,6 +39,7 @@ class RoomsSeeder extends Seeder
                 'delete_flg' => 0,
                 'exciting_flg' => 0,
                 'start_flg' => 0,
+                'turn'=>0,
                 
             ]);
         }
