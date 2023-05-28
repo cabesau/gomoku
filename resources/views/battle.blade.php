@@ -10,7 +10,7 @@
             @endif
         </div>
         <table class="border-collapse border border-slate-900">
-            <form action="/battle" method="post">
+            <form action={{ route('battle', ['room_no'=>$json_data['room_no'],'room_maker'=>$room_maker]) }} method="get">
             @csrf
                 @for($i=1; $i<=14; $i++)
                     <tr class="border border-slate-900">
@@ -51,7 +51,11 @@
 
     let room_no = 72872;
     console.log(`ルームナンバーは${room_no}`);
-    //手番の制御
+
+    let room_maker = {{$room_maker}};
+    console.log(room_maker);
+
+    //ajax通信でjsonファイルを取得
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -66,10 +70,13 @@
     })
     .done( function(response) {
         // 取得したJSONデータを表示
-        // $('#result').text(JSON.stringify(response));
-        
         console.log('取得できました');
-        console.log(response[0].comment);
+        
+        // 手番の制御
+        let data = response[0];
+        console.log(data);
+        
+        turn_player(data.game_counter);
 
     })
     .fail( function(jqXHR, textStatus, errorThrown) {
@@ -82,7 +89,20 @@
         console.log("URL            : " + '/return_json');
     });
 
-    function turn_player(data){
+    function turn_player(game_counter){
+        if(room_maker){
+            if(game_counter % 2 == 1){
+                $("#turn_player").text("あなたの番です");
+            }else{
+                $("#turn_player").text("お待ちください");
+            }
+        }else{
+            if(game_counter % 2 == 0){
+                $("#turn_player").text("あなたの番です");
+            }else{
+                $("#turn_player").text("お待ちください");
+            }
+        }
 
     }
     

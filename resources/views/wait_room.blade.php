@@ -26,7 +26,7 @@
 
         @if ($room_maker)
             <p id="createRoomBtn" class="hidden mb-8 py-3 px-4 mt-10 justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-gray-500 text-white hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all text-sm dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-offset-gray-800">
-                <a href={{ route('game', ['room_no'=>$room->room_no])}}>ゲームを開始する</a>
+                <a href={{ route('game', ['room_no'=>$room->room_no,'room_maker'=>$room_maker])}}>ゲームを開始する</a>
             </p>
         @endif
     </div>
@@ -54,7 +54,7 @@
                 if (response === 'success') {
                     //画面遷移したい
                     console.log('success');
-                    window.location.href = `game/${room_no}`
+                    window.location.href = `game/${room_no}/0`
                 } else {
                     // 新しいデータがない場合は、2秒後に再度ポーリングする
                     setTimeout(function() {

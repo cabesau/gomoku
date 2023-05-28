@@ -52,20 +52,6 @@ class TopController extends Controller
                 'start_flg' => 0,
             ];
 
-            // $data = array(
-            //     array(
-            //         'room_no' => $room_no,
-            //         'user_id' => Auth::id(),
-            //         'player1_name' =>Auth::user()->name,
-            //         'comment' => $request['comment'],
-            //         'delete_flg' => 0,
-            //         'exciting_flg' => (integer)$request['exciting_flg'],
-            //         'start_flg' => 0,
-                
-            //     )
-            // );
-                
-
             $jsonController = new JsonController;
             $jsonController->make_file($room_no,$data);
 
