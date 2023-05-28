@@ -18,9 +18,8 @@ return new class extends Migration
             $table->text('comment')->nullable();
             $table->integer('delete_flg');
             $table->integer('exciting_flg');
-            $table->integer('opponent_user_id')->nullable();
+            $table->integer('player2_id')->nullable();
             $table->integer('start_flg');
-            $table->integer('turn');
             $table->timestamps();
         });
     }
@@ -38,9 +37,8 @@ return new class extends Migration
             $table->integer('delete_flg');
             $table->integer('exciting_flg');
             $table->timestamps();
-            $table->integer('opponent_user_id');
+            $table->integer('player2_id');
             $table->integer('start_flg');
-            $table->integer('turn');
         });
     }
 };

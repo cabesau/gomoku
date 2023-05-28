@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TopController;
 use App\Http\Controllers\BattleController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\JsonController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -38,3 +39,5 @@ Route::get('/check_players_in_room', [RoomController::class,'check_players_in_ro
 
 Route::get('/check_game_started',[RoomController::class,'check_game_started']);
 // Route::post('/check_game_started',[RoomController::class,'check_game_started']);
+
+Route::post('/return_json',[JsonController::class,'return_json']);

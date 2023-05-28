@@ -10,6 +10,18 @@
                 ルームを作成
             </button>
         </div>
+        
+        <form action="/return_json" method="post">
+        @csrf
+            <button type="submit">テストボタン</button>
+            <input type="hidden" value="29503" name="room_no">
+        </form>
+
+        <form action="/check_game_started" method="get">
+            @csrf
+                <button type="submit">テストボタン2</button>
+                <input type="hidden" value="29503" name="room_no">
+            </form>
 
     <table class="w-full">
         <thead>
@@ -22,7 +34,7 @@
         </thead>
         <tbody>
             @foreach ($rooms as $room)
-            <form action="/wait" method="POST">
+            <form action="/wait" method="post">
             @csrf
             <tr>
                 <td class="border border-gray-300 p-2">{{$room->room_no}}</td>

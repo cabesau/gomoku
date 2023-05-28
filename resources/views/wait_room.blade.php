@@ -25,7 +25,7 @@
         <div class="rounded border bg-yellow-500 p-3">コメント:{{$room->comment}}</div>
 
         @if ($room_maker)
-            <p class="hidden mb-8 py-3 px-4 mt-10 justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-gray-500 text-white hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all text-sm dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-offset-gray-800"id="createRoomBtn">
+            <p id="createRoomBtn" class="hidden mb-8 py-3 px-4 mt-10 justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-gray-500 text-white hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all text-sm dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-offset-gray-800">
                 <a href={{ route('game', ['room_no'=>$room->room_no])}}>ゲームを開始する</a>
             </p>
         @endif
@@ -65,12 +65,19 @@
             });
         }
 
-        // 二人揃ったかどうか確認
         let room_no = {{$room->room_no}};
+        console.log(room_no);
+        
+        let room_maker = {{$room_maker}};
+        console.log(room_maker);
+        
+        // 二人揃ったかどうか確認
         check_players_in_room(room_no);
 
         //開始ボタンが押されたかどうか確認
-        check_game_started(room_no);
+        if(room_maker == 0){
+            check_game_started(room_no);
+        }
 
         //戻るボタンを押したときにアラート表示
         $('#back_to_top').on('click',function(){
