@@ -50,6 +50,7 @@ class TopController extends Controller
                 'delete_flg' => 0,
                 'exciting_flg' => (integer)$request['exciting_flg'],
                 'start_flg' => 0,
+                'win_player' => 0,
             ];
 
             $jsonController = new JsonController;

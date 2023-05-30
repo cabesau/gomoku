@@ -47,7 +47,7 @@ class BattleController extends Controller
         // dd($json_data);
 
         return view('battle')->with([
-            'room_no' => $room_no,
+            // 'room_no' => $room_no,
             'room_maker'=>$request['room_maker'],
             'json_data' => $json_data[0],
         ]);
@@ -76,9 +76,9 @@ class BattleController extends Controller
 
         //手番ごとに白と黒を交互に並べる
         if($game_counter % 2 == 1){
-            $json_data["squ_{$request['btn_num']}"] = self::WHITE_STONE;
+            $json_data["squ_{$request['squ_num']}"] = self::BLACK_STONE;
         }else{
-            $json_data["squ_{$request['btn_num']}"] = self::BLACK_STONE;
+            $json_data["squ_{$request['squ_num']}"] = self::WHITE_STONE;
         }
         $game_counter++;
         $json_data['game_counter'] = $game_counter;
@@ -182,10 +182,7 @@ class BattleController extends Controller
         // }
     
         //試合続行
-        return view('battle',['room_no'=>$room_no,'room_maker'=>$request['room_maker']])->with([
-            'room_no' => $room_no,
-            'json_data' => $json_data,
-        ]);
+        return view('battle',['room_no'=>$room_no,'room_maker'=>$request['room_maker']])->with(['json_data' => $json_data,]);
         // return redirect()->route('battle',['room_no'=>$room_no,'room_maker'=>$request['room_maker']])
         // ->with([
         //     'room_no' => $room_no,

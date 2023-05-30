@@ -32,7 +32,7 @@ Route::get('/top',[TopController::class,'top'])->name('top');
 Route::get('/game/{room_no}/{room_maker}',[BattleController::class,'top'])->name('game');
 
 // Route::post('/battle/{room_no}/{room_maker}',[BattleController::class,'battle']);
-Route::get('/battle/{room_no}/{room_maker}',[BattleController::class,'battle'])->name('battle');
+Route::get('/battle/{room_no}/{room_maker}/{squ_num}',[BattleController::class,'battle'])->name('battle');
 
 Route::post('wait',[TopController::class,'wait']);
 
