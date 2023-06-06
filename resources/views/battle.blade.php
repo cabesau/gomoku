@@ -1,10 +1,16 @@
 <x-layout>
-    <x-menu></x-menu>
+    <form action={{route('top')}} method="post">
+        @csrf
+        <button id="top_btn" class="m-5 px-2 py-1 text-blue-500 border border-blue-500 font-semibold rounded hover:bg-blue-100">トップに戻る</button>
+        <input type="hidden" name="room_maker_flg" value={{$room_maker_flg}}>
+        <input type="hidden" name="room_no" value={{$json_data['room_no']}}>
+    </form>
 <div>
     <span id="player1_name"></span>
     <span>VS</span>
     <span id="player2_name"></span>
-</div>    
+</div>
+<div>ルームno.{{$json_data['room_no']}}</div>    
 <div class="flex justify-center">
     <div class="flex flex-col">
         <div id="turn_player" class="cursor-pointer rounded border bg-yellow-500 pb-10 tex-center"></div>
@@ -16,7 +22,7 @@
                 <?php $squ_num = $j + 14 * ($i - 1); ?>
                 <td class="border border-slate-900 w-8 h-8 text-center bg-amber-100 " >
 
-                <a id={{$squ_num}} href={{ route('battle', ['room_no'=>$json_data['room_no'],'room_maker'=>$room_maker,'squ_num'=>$squ_num]) }}></a> 
+                <a id={{$squ_num}} href={{ route('battle', ['room_no'=>$json_data['room_no'],'room_maker_flg'=>$room_maker_flg,'squ_num'=>$squ_num]) }}></a> 
                     
                 </td>
                 @endfor  
@@ -32,16 +38,16 @@
     let room_no = {{$json_data['room_no']}};
     console.log(`ルームナンバーは${room_no}`);
 
-    let room_maker = {{$room_maker}};
+    let room_maker = {{$room_maker_flg}};
     console.log('ルームメイカー：'+room_maker);
 
-    let win_player = {{$json_data['win_player']}};
+    console.log('{{$json_data['win_player']}}');
+    let win_player = '{{$json_data['win_player']}}';
 
     //初回jsonファイル取得
     check_json(room_no);
 
     //ajax通信でjsonファイルを取得
-    
     function check_json(room_no){
         $.ajaxSetup({
             headers: {
@@ -68,10 +74,8 @@
             
             //盤面の描画
             decide_color(data);
-            let counter = 'game_counter';
-            console.log(data[`${counter}`]);
 
-            //1秒後にポーリング
+            //5秒後にポーリング
             setTimeout(function(){
                 check_json(room_no);
             } ,5000,room_no);
@@ -92,8 +96,6 @@
     function display_player(data){
         $("#player1_name").text(data['player1_name']);
         $("#player2_name").text(data['player2_name']);
-        console.log(data['player1_name']);
-
     }
 
     //盤面に白か黒の石を置くメソッド
@@ -113,8 +115,12 @@
     function display_turn_player(game_counter){
         if(win_player != 0){
             $("#turn_player").text(`${win_player}さんの勝利です`);
+            $('a').click(function(event) {
+                    event.preventDefault(); 
+            });
+            finish_game(room_no);
         }else{
-            if(room_maker){
+            if({{$room_maker_flg}} == 1){
                 if(game_counter % 2 == 1){
                     $("#turn_player").text("あなたの番です");
                     $('a').off('click'); // aタグのクリックイベントの処理を解除して有効にする
@@ -136,6 +142,16 @@
                 }
             }
         }
+    }
+
+    //ゲームを終了させる
+    function finish_game(room_no) {
+        $.get('/update_finish_info', {room_no: room_no}, function(response) {
+            if (response === 'success') {
+                //topボタンを切り替えたい
+                console.log('success');
+            }
+        });
     }
 
     

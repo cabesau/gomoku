@@ -54,14 +54,8 @@ class JsonController extends Controller
         //データを配列に追加
         $merge_data = array_merge($get_data[0],$data);
 
-        // dd($merge_data);
-
         $update_data = json_encode($merge_data,JSON_UNESCAPED_UNICODE);
-
-        // dd($update_data);
-
-        file_put_contents($file_path, '[' . $update_data . ']');
-        
+        file_put_contents($file_path, '[' . $update_data . ']');        
     }
 
     /**
@@ -76,21 +70,19 @@ class JsonController extends Controller
         if (File::exists($file_path)) {
             $json_data = File::get($file_path);
 
-            // dd($json_data);
-    
+            //return $json_data[0]で返すとエラーになる
             return $json_data;
         }
     }
 
     /**
-     * 配列をjsonファイルに変換してストレージに保存する
+     * jsonファイルを削除する
      *
-     * @param int $file_path
-     * @param array $data
+     * @param int $room_no
      * @return void
      */
-    // public function put_file($file_path,$data){
-    //     $input_json_data = json_encode($data,JSON_UNESCAPED_UNICODE);
-    //     file_put_contents($file_path, '[' . $input_json_data . ']');
-    // }
+    public function delete_file($room_no){
+        $file_path = storage_path("app/json/{$room_no}.json");
+        File::delete($file_path);
+    }
 }

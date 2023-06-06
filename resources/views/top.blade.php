@@ -34,14 +34,14 @@
         </thead>
         <tbody>
             @foreach ($rooms as $room)
-            <form action="/wait" method="post">
+            <form action="/in_room" method="post">
             @csrf
             <tr>
                 <td class="border border-gray-300 p-2">{{$room->room_no}}</td>
                 <td class="border border-gray-300 p-2">{{$room->user->name}}</td>
                 <td class="border border-gray-300 p-2">{{$room->comment}}</td>
                 <td class="border border-gray-300 p-2"><button type="submit" class="w-full text-blue-700">入室する</button></td>
-                <input type="hidden" value="{{$room->id}}" name="room_id">
+                <input type="hidden" name="room_no" value="{{$room->room_no}}">
             </tr>
             </form>
             @endforeach
@@ -60,13 +60,14 @@
 
         <div id="modal-headline" class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
             <h3 class="text-lg leading-6 font-medium text-gray-900 text-center">ルームを作成</h3><br>
-            <form action="wait" method="post">
+            <form action="/make_room" method="post">
             @csrf
-                <input type="hidden" name="make_room" value="value">
                 <div class="mt-2">
                     <label for="room-comment" class="block text-sm font-medium text-gray-700"></label>
                     <textarea id="room-comment" name="comment" placeholder="ここにコメントを入れてください" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ></textarea><br>
                 </div>
+                
+                <input type="hidden" name="room_maker_flg" value="1">
                 <input type="hidden" name="exciting_flg" value="0" >
                 <input type="checkbox" name="exciting_flg" value="1">エキサイティングモード
 
