@@ -21,6 +21,10 @@ class BattleController extends Controller
     const SQUAREA_NUM = self::LINE_NUM * self::LINE_NUM;
     //勝利条件の石の数
     const WIN_CONDITION = 3;
+    //プレイヤー1のターン
+    const TURN_PLAYER1 = 1;
+    //プレイヤー2のターン
+    const TURN_PLAYER2 = 2;
 
     /**
      * ゲーム開始直後の初期値設定
@@ -44,10 +48,12 @@ class BattleController extends Controller
         $jsonController->update_file($room_no,$data);
         $json_data = $jsonController->get_file($room_no);
 
-        return view('battle')->with([
-            'room_maker_flg'=>$room_maker_flg,
-            'json_data' => $json_data[0],
-        ]);
+        // return view('battle')->with([
+        //     'room_maker_flg'=>$room_maker_flg,
+        //     'json_data' => $json_data[0],
+        // ]);
+
+        return view('battle')->with(['room_no'=>$room_no,'room_maker_flg'=>$room_maker_flg]);
 
     }
 
@@ -68,31 +74,26 @@ class BattleController extends Controller
 
         //ゲームカウンター
         $game_counter = $json_data['game_counter'];
-
-        //手番ごとに白と黒を交互に並べる
-        if($game_counter % 2 == 1){
-            $json_data["squ_{$request['squ_num']}"] = self::BLACK_STONE;
-        }else{
-            $json_data["squ_{$request['squ_num']}"] = self::WHITE_STONE;
-        }
         $game_counter++;
         $json_data['game_counter'] = $game_counter;
 
-        $json_data = $this->check_win_condition($json_data);
+        //手番ごとに白と黒を交互に並べる
+        if($json_data['turn_player'] == self::TURN_PLAYER1){
+            $json_data["squ_{$request['squ_num']}"] = self::BLACK_STONE;
+            $json_data = $this->check_win_condition($json_data);
+            $json_data['turn_player'] = self::TURN_PLAYER2;
+        }else{
+            $json_data["squ_{$request['squ_num']}"] = self::WHITE_STONE;
+            $json_data = $this->check_win_condition($json_data);
+            $json_data['turn_player'] = self::TURN_PLAYER1;
+         }
 
         $jsonController->update_file($room_no,$json_data);
-        
         //試合続行
-        return view('battle',['room_no'=>$room_no,'room_maker_flg'=>$room_maker_flg])
-        ->with(['json_data' => $json_data]);
+        // return view('battle',['room_no'=>$room_no,'room_maker_flg'=>$room_maker_flg])
+        // ->with(['json_data' => $json_data]);
+        return view('battle')->with(['room_no'=>$room_no,'room_maker_flg'=>$room_maker_flg]);
 
-
-
-        // return redirect()->route('battle',['room_no'=>$room_no,'room_maker'=>$request['room_maker']])
-        // ->with([
-        //     'room_no' => $room_no,
-        //     'json_data' => $json_data,
-        // ]);
     }
 
     /**
@@ -105,7 +106,7 @@ class BattleController extends Controller
         // //縦横ナナメで同じ色が5個並んだら勝利
         $win_counter = 0;
         //チェックする色を決める
-        if($json_data['game_counter'] % 2 == 1){
+        if($json_data['turn_player'] == self::TURN_PLAYER1){
             //手番が黒
             $check_color = self::BLACK_STONE;
             $win_player = $json_data['player1_name'];

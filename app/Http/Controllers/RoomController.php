@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\models\Room;
 use Illuminate\Support\Facades\File;
+use App\Http\Controllers\JsonController;
 
 class RoomController extends Controller
 {
@@ -74,13 +75,19 @@ class RoomController extends Controller
      */
     function update_finish_info(Request $request){
         $room_no = $request['room_no'];
-        $room = Room::where('room_no',$room_no)->where('delete_flg',0)->first();
-        $room->update([
-            'delete_flg' =>1,
-        ]);
+
+        //dbを更新
+        // $room = Room::where('room_no',$room_no)->where('delete_flg',0)->get();
+        // $room->update([
+        // 'delete_flg' => 1,
+        // ]);
+
+        //jsonファイルを更新
+        $jsonController = new JsonController;
+        $json_data = $jsonController->get_file($room_no)[0];
+        $json_data['delete_flg'] = 1;
+        $jsonController->update_file($room_no,$json_data);
+
         return 'success';
     }
-
-
-    
 }

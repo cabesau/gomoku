@@ -23,10 +23,18 @@ class TopController extends Controller
         $room_maker_flg = $request['room_maker_flg'];
         $room_no = $request['room_no'];
 
-        if(isset($room_maker_flg) && $room_maker_flg == 0){
-            $this->out_player_info($room_no);
-        }else if(isset($room_maker_flg) && $room_maker_flg == 1){
-            $this->delete_room_data($room_no);
+        if(isset($room_no)){
+            $jsonController = new JsonController;
+            $json_data =$jsonController->get_file($room_no)[0];
+            if($json_data['delete_flg'] == 0){
+                //ルーム作成者の場合
+                if(isset($room_maker_flg) && $room_maker_flg == 0){
+                    $this->out_player_info($room_no);
+                //ルーム参加者の場合
+                }else if(isset($room_maker_flg) && $room_maker_flg == 1){
+                    $this->delete_room_data($room_no);
+                }
+            }
         }
 
         $rooms = Room::where('start_flg',0)->where('delete_flg',0)->get();
@@ -107,6 +115,7 @@ class TopController extends Controller
            'exciting_flg' => $request['exciting_flg'],
            'start_flg' => 0,
            'win_player' => 0,
+           'turn_player' => 1,
        ];
 
        $jsonController = new JsonController;
