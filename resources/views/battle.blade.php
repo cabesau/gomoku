@@ -3,7 +3,6 @@
         @csrf
         <button id="top_btn" class="m-5 px-2 py-1 text-blue-500 border border-blue-500 font-semibold rounded hover:bg-blue-100">トップに戻る</button>
         <input type="hidden" name="room_maker_flg" value={{$room_maker_flg}}>
-        {{-- <input type="hidden" name="room_no" value={{$json_data['room_no']}}> --}}
         <input type="hidden" name="room_no" value={{$room_no}}>
     </form>
 <div>
@@ -11,7 +10,6 @@
     <span>VS</span>
     <span id="player2_name"></span>
 </div>
-{{-- <div>ルームno.{{$json_data['room_no']}}</div> --}}
 <div>ルームno.{{$room_no}}</div>
 <div class="flex justify-center">
     <div class="flex flex-col">
@@ -24,7 +22,6 @@
                 <?php $squ_num = $j + 14 * ($i - 1); ?>
                 <td class="border border-slate-900 w-8 h-8 text-center bg-amber-100 " >
 
-                {{-- <a id={{$squ_num}} href={{ route('battle', ['room_no'=>$json_data['room_no'],'room_maker_flg'=>$room_maker_flg,'squ_num'=>$squ_num]) }}></a>  --}}
                 <a id={{$squ_num}} href={{ route('battle', ['room_no'=>$room_no,'room_maker_flg'=>$room_maker_flg,'squ_num'=>$squ_num]) }}></a> 
                     
                 </td>

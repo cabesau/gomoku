@@ -44,6 +44,3 @@ Route::get('/update_finish_info',[RoomController::class,'update_finish_info']); 
 
 ////////メモ///////
 //getはコントローラーからコントローラーに遷移(?)したい場合に使う。
-
-////////不要？///////
-Route::post('room/top',[RoomController::class,'room_top']); //ルーム画面遷移する

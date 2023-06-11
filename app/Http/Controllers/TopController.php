@@ -17,6 +17,7 @@ class TopController extends Controller
     /**
      * トップ画面に遷移する
      *
+     * @param Request $request
      * @return void
      */
     public function top(Request $request){
@@ -81,11 +82,19 @@ class TopController extends Controller
         $room->update([
             'delete_flg' => 1
         ]);
+
+        //jsonファイルを更新
+       $data = array(
+        'delete_flg' => 1
+       );
+        $jsonController = new JsonController;
+        $jsonController->update_file($room_no,$data);
     }
 
     /**
      * ルームを作成する
      *
+     * @param Request $request
      * @return void
      */
     function make_room(Request $request){
@@ -129,6 +138,7 @@ class TopController extends Controller
    /**
     * 作成済みのルームに入る
     *
+    * @param Request $request
     * @return void
     */
    function in_room(Request $request){

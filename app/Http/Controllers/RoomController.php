@@ -77,11 +77,12 @@ class RoomController extends Controller
         $room_no = $request['room_no'];
 
         //dbを更新
-        // $room = Room::where('room_no',$room_no)->where('delete_flg',0)->get();
-        // $room->update([
-        // 'delete_flg' => 1,
-        // ]);
+        $room = Room::where('room_no',$room_no)->where('delete_flg',0)->first();
 
+        $room->update([
+        'delete_flg' => 1,
+        ]);
+        
         //jsonファイルを更新
         $jsonController = new JsonController;
         $json_data = $jsonController->get_file($room_no)[0];

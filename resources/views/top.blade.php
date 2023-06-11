@@ -11,17 +11,11 @@
             </button>
         </div>
         
-        <form action="/return_json" method="post">
+        <form action="/update_finish_info" method="get">
         @csrf
             <button type="submit">テストボタン</button>
-            <input type="hidden" value="29503" name="room_no">
+            <input type="hidden" value="24012" name="room_no">
         </form>
-
-        <form action="/check_game_started" method="get">
-            @csrf
-                <button type="submit">テストボタン2</button>
-                <input type="hidden" value="29503" name="room_no">
-            </form>
 
     <table class="w-full">
         <thead>
@@ -53,7 +47,7 @@
 <div class="fixed z-10 inset-0 overflow-y-auto hidden" id="create_room_modal">
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-            <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            <div id="outside_modal" class="absolute inset-0 bg-gray-500 opacity-75"></div>
         </div>
 
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
@@ -69,7 +63,8 @@
                 
                 <input type="hidden" name="room_maker_flg" value="1">
                 <input type="hidden" name="exciting_flg" value="0" >
-                <input type="checkbox" name="exciting_flg" value="1">エキサイティングモード
+                <input type="checkbox" name="exciting_flg" value="1" id="exciting">
+                <label for="exciting">エキサイティングモード</label>
 
                 <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
                     <button type="submit" id="create_room_btn" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm" >
@@ -86,16 +81,16 @@
 
 <script>
     // トップのルーム作成ボタンをクリックした時の処理
-    document.getElementById("create_modal_btn").addEventListener("click", function() {
+    $("#create_modal_btn").on('click',function(){
         // モーダルを表示する
         document.getElementById("create_room_modal").classList.remove("hidden");
-    });
+    })
 
     // ルーム作成キャンセルボタンをクリックした時の処理
-    document.getElementById("cancel_btn").addEventListener("click", function() {
+    $("#cancel_btn,#outside_modal").on('click',function(){
         // モーダルを非表示にする
         document.getElementById("create_room_modal").classList.add("hidden");
-    });
+    })
 </script>
 
 
