@@ -19,8 +19,8 @@ class BattleController extends Controller
     const LINE_NUM = 14;
     //盤面マスの合計(通常は196)
     const SQUAREA_NUM = self::LINE_NUM * self::LINE_NUM;
-    //勝利条件の石の数
-    const WIN_CONDITION = 3;
+    //勝利条件の石の数を設定
+    const WIN_CONDITION = 5;
     //プレイヤー1のターン
     const TURN_PLAYER1 = 1;
     //プレイヤー2のターン
