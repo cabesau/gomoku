@@ -12,17 +12,23 @@
 
     <div class="flex flex-col">
         <div class="flex">
-            <div class="rounded border bg-yellow-500 p-3 flex-1">
+            <div class="rounded border bg-yellow-500 p-3 ml-1 flex-1">
                 ルームNo:{{$room_no}}
             </div>
-            <div class="rounded border bg-yellow-500 p-3 flex-1">ゲームモード：
+            <div class="rounded border bg-yellow-500 p-3 mr-1 flex-1">ゲームモード：
                 <span id="game_mode"></span>
             </div>
         </div>
-        <div class="rounded border bg-yellow-500 p-3">
-             <span id="Opponent"></span>
+        <div class="flex">
+            <div class="rounded border bg-yellow-500 p-3 ml-1 flex-2 w-1/2">
+                <span id="Opponent"></span>
+            </div>
+            <div class="rounded border bg-yellow-500 p-3 mr-1 flex-2 w-1/2">トップに戻るまであと：
+                <span id="timer"></span>
+            </div>
         </div>
-        <div class="rounded border bg-yellow-500 p-3">コメント:
+
+        <div class="rounded border bg-yellow-500 p-3 mx-1 ">コメント:
             <span id="comment"></span>
         </div>
 
@@ -60,8 +66,11 @@
             // 取得したJSONデータを表示
             console.log('取得できました');
             let data = json_data[0];
+            let delete_room_time = data['delete_room_time'];
+            let room_no = data['room_no'];
 
             display_info(data);
+            display_timer(delete_room_time,room_no);
 
             if(room_maker_flg === 1){
                 check_players_in_room(data);
@@ -69,10 +78,10 @@
                 check_game_started(data)
             }
 
-            //2秒後にポーリング
+            //1秒後にポーリング
             setTimeout(function(){
                 check_json(room_no);
-            } ,2000,room_no);
+            } ,1000,room_no);
             
         })
         .fail( function(jqXHR, textStatus, errorThrown) {
@@ -83,26 +92,7 @@
             console.log("errorThrown    : " + errorThrown); // 例外情報
             console.log("URL            : " + '/return_json');
         });
-    }
-
-        //二人揃ったらスタートボタンを表示させる
-        function check_players_in_room(data) {
-            if(data['opponent_flg'] == 1){
-                // ボタンを表示する
-               $('#createRoomBtn').show();
-            }else{
-                //ボタンを隠す
-                $('#createRoomBtn').hide();
-            }
-            
-        }
-
-        //ゲーム開始ボタンが押されたらバトル画面に遷移する
-        function check_game_started(data) {
-            if(data['start_flg'] == 1){
-                window.location.href = `http://localhost/battle_start/${room_no}/0`;
-            }
-        }
+      }
 
         //画面の情報を表示させる
         function display_info(data){
@@ -121,7 +111,51 @@
                 }
             });
             $('#comment').text(data['comment']);
+        }
+        
+        //タイマーを表示させる
+        function display_timer(delete_room_time,room_no){
+            let now = new Date();
+            let js_time_stamp = Math.floor(now.getTime() / 1000);
+            let timer = delete_room_time - js_time_stamp;
+            let timer_min = Math.floor(timer / 60);
+            let timer_sec = timer % 60;
+            
+            if(timer <= 0){
+                return_top(room_no);
+            }
+            $('#timer').text(timer_min + '分' +  timer_sec + '秒');
+        }
+        
+        //トップ画面に戻る
+        function return_top(room_no){
+            //データを更新
+            $.get('/update_finish_info', {room_no: room_no}, function(response) {
+                if (response == 'success') {
+                    console.log('success');
+                }
+            });
+            //トップに画面遷移
+            window.location.href = 'http://localhost/top';
+        }
 
+        //二人揃ったらスタートボタンを表示させる
+        function check_players_in_room(data) {
+            if(data['opponent_flg'] == 1){
+                // ボタンを表示する
+               $('#createRoomBtn').show();
+            }else{
+                //ボタンを隠す
+                $('#createRoomBtn').hide();
+            }
+            
+        }
+
+        //ゲーム開始ボタンが押されたらバトル画面に遷移する
+        function check_game_started(data) {
+            if(data['start_flg'] == 1){
+                window.location.href = `http://localhost/battle_start/${room_no}/0`;
+            }
         }
 
     </script>

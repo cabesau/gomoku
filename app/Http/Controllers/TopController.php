@@ -13,6 +13,8 @@ class TopController extends Controller
     const ROOM_MAKER = 1;
     //非ルーム作成者
     const NOT_ROOM_MAKER = 0;
+    //タイマーの時間（分）
+    const DELETE_ROOM_TIME = 300;
 
     /**
      * トップ画面に遷移する
@@ -114,6 +116,9 @@ class TopController extends Controller
            'opponent_flg' =>0,
        ]);
 
+       //ルーム削除までの時間
+       $delete_room_time = time() + self::DELETE_ROOM_TIME;
+
        //jsonをファイルを新規作成
        $data = [
            'room_no' => $room_no,
@@ -125,6 +130,7 @@ class TopController extends Controller
            'start_flg' => 0,
            'win_player' => 0,
            'turn_player' => 1,
+           'delete_room_time' => $delete_room_time,
        ];
 
        $jsonController = new JsonController;
