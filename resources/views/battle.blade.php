@@ -89,7 +89,6 @@
             
         })
         .fail( function(jqXHR, textStatus, errorThrown) {
-            // console.error(error);
             console.log('失敗');
             console.log("ajax通信に失敗しました");
             console.log("jqXHR          : " + jqXHR.status); // HTTPステータスが取得
@@ -153,7 +152,6 @@
         //データを更新
         $.get('/update_finish_info', {room_no: room_no}, function(response) {
             if (response == 'success') {
-                //topボタンを切り替えたい
                 console.log('success');
             }
         });
