@@ -20,11 +20,30 @@ class BattleController extends Controller
     //盤面マスの合計(通常は196)
     const SQUAREA_NUM = self::LINE_NUM * self::LINE_NUM;
     //勝利条件の石の数を設定
-    const WIN_CONDITION = 5;
+    const WIN_CONDITION = 1;
     //プレイヤー1のターン
     const TURN_PLAYER1 = 1;
     //プレイヤー2のターン
     const TURN_PLAYER2 = 2;
+
+    /**
+     * バトル画面に遷移する
+     *
+     * @param Request $request
+     * @return void
+     */
+    function battle($room_no, $room_maker_flg){
+        $jsonController = new JsonController;
+        $json_data = $jsonController->get_file($room_no)[0];
+
+        // 初回ならルームを初期化する
+        if(empty($json_data['game_counter'])){
+            $this->battle_start($room_no,$room_maker_flg);
+        }
+
+        return view('/battle')
+        ->with(['room_no'=>$room_no,'room_maker_flg'=>$room_maker_flg]);
+    }
 
     /**
      * ゲーム開始直後の初期値設定
@@ -32,7 +51,7 @@ class BattleController extends Controller
      * @param Request $request
      * @return void
      */
-    public function battle_start(Request $request, $room_no, $room_maker_flg){
+    public function battle_start($room_no, $room_maker_flg){
         
         //jsonファイルを取得
         $jsonController = new JsonController;
@@ -59,9 +78,6 @@ class BattleController extends Controller
         $jsonController = new JsonController;
         $jsonController->update_file($room_no,$data);
         $json_data = $jsonController->get_file($room_no);
-
-        return view('battle')->with(['room_no'=>$room_no,'room_maker_flg'=>$room_maker_flg]);
-
     }
     
     /**
@@ -71,7 +87,6 @@ class BattleController extends Controller
      * @return arrat $data
      */
     function exciting_mode(){
-
         //最初の黒石
         $first_black_stone = rand(1,self::SQUAREA_NUM);
 
@@ -165,11 +180,11 @@ class BattleController extends Controller
      * @param Request $request
      * @return void
      */
-    public function battle(Request $request){
+    public function battle_cal(Request $request){
         
         $room_maker_flg = $request['room_maker_flg'];
         $room_no = $request['room_no'];
-        
+        $squ_num = $request['squ_num'];
         //jsonファイルを取得
         $jsonController = new JsonController;
         $json_data = $jsonController->get_file($room_no)[0];
@@ -181,19 +196,17 @@ class BattleController extends Controller
 
         //手番ごとに白と黒を交互に並べる
         if($json_data['turn_player'] == self::TURN_PLAYER1){
-            $json_data["squ_{$request['squ_num']}"] = self::BLACK_STONE;
+            $json_data["squ_{$squ_num}"] = self::BLACK_STONE;
             $json_data = $this->check_win_condition($json_data);
             $json_data['turn_player'] = self::TURN_PLAYER2;
         }else{
-            $json_data["squ_{$request['squ_num']}"] = self::WHITE_STONE;
+            $json_data["squ_{$squ_num}"] = self::WHITE_STONE;
             $json_data = $this->check_win_condition($json_data);
             $json_data['turn_player'] = self::TURN_PLAYER1;
          }
 
         $jsonController->update_file($room_no,$json_data);
 
-        //試合続行
-        return view('battle')->with(['room_no'=>$room_no,'room_maker_flg'=>$room_maker_flg]);
     }
 
     /**
@@ -283,5 +296,5 @@ class BattleController extends Controller
             }
         }
         return $json_data;
-    }
+    }   
 }

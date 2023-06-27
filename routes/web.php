@@ -33,13 +33,14 @@ Route::post('in_room',[TopController::class,'in_room']); //既存のルームに
 
 
 ////////バトルを制御///////
+Route::get('/battle/{room_no}/{room_maker_flg}',[BattleController::class,'battle'])->name('battle'); //バトル画面に遷移
 Route::get('/battle_start/{room_no}/{room_maker_flg}',[BattleController::class,'battle_start'])->name('battle_start'); //バトルの初期値を設定する
-Route::get('/battle/{room_no}/{room_maker_flg}/{squ_num}',[BattleController::class,'battle'])->name('battle'); //実際のバトルを制御
 
 ////////非同期用///////
 Route::get('/check_players_in_room', [RoomController::class,'check_players_in_room']); //プレイヤーが二人揃ったか確認
 Route::get('/check_game_started',[RoomController::class,'check_game_started']); //ゲームが開始されたか確認
 Route::post('/return_json',[JsonController::class,'return_json']); //jsonファイルを返す
+Route::post('/battle_cal',[BattleController::class,'battle_cal'])->name('battle_cal');//バトルを制御
 Route::get('/update_finish_info',[RoomController::class,'update_finish_info']); //ゲーム終了情報を更新する
 
 ////////メモ///////

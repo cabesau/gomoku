@@ -20,10 +20,8 @@
             <tr class="border border-slate-900">
                 @for($j=1; $j<=14; $j++)
                 <?php $squ_num = $j + 14 * ($i - 1); ?>
-                <td class="border border-slate-900 w-8 h-8 text-center bg-amber-100 " >
-
-                <a id={{$squ_num}} href={{ route('battle', ['room_no'=>$room_no,'room_maker_flg'=>$room_maker_flg,'squ_num'=>$squ_num]) }}></a> 
-                    
+                    <td class="border border-slate-900 w-8 h-8 text-cente">
+                    <img id={{$squ_num}} class="squ_btn py-1px" src="" style="height: 100%">
                 </td>
                 @endfor 
             </tr>
@@ -36,13 +34,14 @@
     'use strict';
 
     let room_no = {{$room_no}};
-    console.log(`ルームナンバーは${room_no}`);
-
-    let room_maker = {{$room_maker_flg}};
-    console.log('ルームメイカー：'+room_maker);
+    let room_maker_flg = {{$room_maker_flg}};
+    const wail_comment = 'お待ちください';
+    const your_turn_comment = 'あなたの番です';
 
     //初回jsonファイル取得
     check_json(room_no);
+
+    //////////////////////メソッド//////////////////////
 
     //ajax通信でjsonファイルを取得
     function check_json(room_no){
@@ -86,7 +85,6 @@
                     check_json(room_no);
                 } ,1000,room_no);
             }
-            
         })
         .fail( function(jqXHR, textStatus, errorThrown) {
             console.log('失敗');
@@ -104,16 +102,19 @@
         $("#player2_name").text(player2_name);
     }
 
-    //盤面に白か黒の石を置くメソッド
+    //盤面に白か黒の石を表示
     function decide_color(data){
-        for(let i = 0; i < 195; i++){
+        for(let i = 1; i <= 196; i++){
             if(data[`squ_${i}`] == 0){
-                $(`#${i}`).text('・');
+                $('#' + i).attr('src','{{asset('storage/white.svg')}}');
             }else if(data[`squ_${i}`] == 1){
-                $(`#${i}`).text('●');
+                $('#' + i).attr('src','{{asset('storage/black_stone.svg')}}');
+                $('#' + i).removeClass('squ_btn');
             }else{
-                $(`#${i}`).text('◯');
+                $('#' + i).attr('src','{{asset('storage/gold.svg')}}');
+                $('#' + i).removeClass('squ_btn');
             }
+
         }
     }
 
@@ -121,23 +122,15 @@
     function display_turn_player(turn_player){
         if({{$room_maker_flg}} == 1){
             if(turn_player == 1){
-                $("#turn_player").text("あなたの番です");
-                $('a').off('click'); // aタグのクリックイベントを有効にする
+                $("#turn_player").text(your_turn_comment);
             }else{
-                $("#turn_player").text("お待ちください");
-                $('a').click(function(event) {
-                    event.preventDefault(); //aタグのクリックイベントを無効にする
-                });
+                $("#turn_player").text(wail_comment);
             }
         }else{
             if(turn_player == 2){
-                $("#turn_player").text("あなたの番です");
-                $('a').off('click'); // aタグのクリックイベントを有効にする
+                $("#turn_player").text(your_turn_comment);
             }else{
-                $("#turn_player").text("お待ちください");
-                $('a').click(function(event) {
-                    event.preventDefault(); // aタグのクリックイベントを無効にする
-                });
+                $("#turn_player").text(wail_comment);
             }
         }
     }
@@ -146,17 +139,42 @@
     function finish_game(room_no,win_player) {
         //表示を変更
         $("#turn_player").text(`${win_player}さんの勝利です`);
-        $('a').click(function(event) {
-                event.preventDefault(); 
-        });
+        
         //データを更新
         $.get('/update_finish_info', {room_no: room_no}, function(response) {
             if (response == 'success') {
-                console.log('success');
+                console.log('ゲームが終了しました');
             }
         });
     }
-    
+
+    //石を置く
+    $('.squ_btn').on('click',function(){
+        console.log($(this).attr('id') + 'のボタンが押されました');
+        let room_no = {{$room_no}};
+        
+        if($('#turn_player').text() == your_turn_comment){
+            let data = {
+                room_no: room_no,
+                room_maker_flg: room_maker_flg,
+                squ_num: $(this).attr('id')
+            };
+            $.post('/battle_cal',data);
+        }
+    })
+
+    //////////////////////アニメーション//////////////////////
+
+    //石が置かれていないマスにマウスが置かれたら色が変わる
+    $('.squ_btn').mouseover(function(){
+        console.log($(this).attr('id') + 'にマウスが置かれました');
+        if($(this).hasClass('squ_btn')){
+            $(this).css('background-color','#ffd6d6');
+        }
+    });
+    $('.squ_btn').mouseout(function(){
+        $(this).css('background-color','');
+    })
 </script>
 
 </x-layout>
