@@ -35,7 +35,7 @@
         {{-- ゲーム開始ボタン --}}
         @if ($room_maker_flg)
             <p id="createRoomBtn" class="hidden w-40 mb-8 py-3 px-4 mt-10 justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-gray-500 text-white hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all text-sm dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-offset-gray-800">
-                <a href={{ route('battle_start', ['room_no'=>$room_no,'room_maker_flg'=>$room_maker_flg]) }}>ゲームを開始する</a>
+                <a href={{ route('battle', ['room_no'=>$room_no,'room_maker_flg'=>$room_maker_flg]) }}>ゲームを開始する</a>
             </p>
         @endif
     </div>
@@ -154,7 +154,7 @@
         //ゲーム開始ボタンが押されたらバトル画面に遷移する
         function check_game_started(data) {
             if(data['start_flg'] == 1){
-                window.location.href = `http://localhost/battle_start/${room_no}/0`;
+                window.location.href = `http://localhost/battle/${room_no}/0`;
             }
         }
 

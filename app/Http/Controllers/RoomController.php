@@ -78,9 +78,8 @@ class RoomController extends Controller
 
         //dbを更新
         $room = Room::where('room_no',$room_no)->where('delete_flg',0)->first();
-
         $room->update([
-        'delete_flg' => 1,
+        'delete_flg' => 1
         ]);
         
         //jsonファイルを更新

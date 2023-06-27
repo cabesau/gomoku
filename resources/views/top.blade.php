@@ -14,7 +14,7 @@
         <form action="/update_finish_info" method="get">
         @csrf
             <button type="submit">テストボタン</button>
-            <input type="hidden" value="24012" name="room_no">
+            <input type="hidden" value="94546" name="room_no">
         </form>
 
     <table class="w-full">
