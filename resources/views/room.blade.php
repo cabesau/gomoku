@@ -97,7 +97,7 @@
         //画面の情報を表示させる
         function display_info(data){
             $('#game_mode').text(function(){
-                if(data['delete_flg'] === 0){
+                if(data['exciting_flg'] === 0){
                     return '通常モード';
                 }else{
                     return 'エキサイティングモード';

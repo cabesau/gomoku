@@ -13,7 +13,7 @@
         
         <form action="/update_finish_info" method="get">
         @csrf
-            <button type="submit">テストボタン</button>
+            {{-- <button type="submit">テストボタン</button> --}}
             <input type="hidden" value="94546" name="room_no">
         </form>
 
